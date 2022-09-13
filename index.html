@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Curso JS</title>
+</head>
+<body>
+	<label>Articulo 1</label>
+	<input class="precioArticulos" type="number" value="10000" disabled id="monto-1">
+	<br>
+	<label>Articulo 2</label>
+	<input class="precioArticulos" type="number" value="15000" disabled id="monto-2">
+	<br>
+	<label>Articulo 3</label>
+	<input class="precioArticulos" type="number" value="20000" disabled id="monto-3">
+	<br>
+	<label>Total</label>
+	<input type="text" disabled id="total">
+	<select id="cuotas">
+		<option value="">Cuotas</option>
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="6">6</option>
+		<option value="12">12</option>
+		<option value="24">24</option>
+	</select>
+	<button id="calcular" onclick="caclularCuotas()">Calcular</button>
+
+	<script src="js/main.js"></script>
+</body>
+</html>
