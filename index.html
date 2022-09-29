@@ -3,37 +3,48 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 	<title>Curso JS</title>
 </head>
 <body>
 
 	<div class="articulos">
-		<div>
-			<h3>Elemento 1</h3>
-			<span>Precio: $500</span>
-			<button id="elemento-1" class="agregarElemento">
-				Agregar Elemento 1
-			</button>
-			<input type="hidden" id="precio-elemento-1" value="500">
-			<input type="hidden" id="nombre-elemento-1" value="Elemento 1">
-		</div>
 
-		
 
-		<div>
-			<h2>Elemento 2</h2>
-			<span>Precio: $700</span>
-			<button id="elemento-2" class="agregarElemento">
-				Agregar Elemento 2
-			</button>
-			<input type="hidden" id="precio-elemento-2" value="700">
-			<input type="hidden" id="nombre-elemento-2" value="Elemento 2">
-		</div>
+
+
+<div class="card" style="width: 18rem;">
+  <!-- <img src="..." class="card-img-top" alt="..."> -->
+  <div class="card-body">
+    <h5 class="card-title">Elemento 1</h5>
+    <p class="card-text">Precio: $500</p>
+    <button type="button" id="elemento-1" class="btn btn-primary agregarElemento">Agregar al carrito</button>
+	<input type="hidden" id="precio-elemento-1" value="500">
+	<input type="hidden" id="nombre-elemento-1" value="Elemento 1">
+  </div>
+</div>
+
+<div class="card" style="width: 18rem;">
+  <!-- <img src="..." class="card-img-top" alt="..."> -->
+  <div class="card-body">
+    <h5 class="card-title">Elemento 2</h5>
+    <p class="card-text">Precio: $700</p>
+    <button type="button" id="elemento-2" class="btn btn-primary agregarElemento">Agregar al carrito</button>
+	<input type="hidden" id="precio-elemento-2" value="700">
+	<input type="hidden" id="nombre-elemento-2" value="Elemento 2">
+  </div>
+</div>
+
 	</div>
 
 	<h2>Carrito</h2><span>Total: <span id="totalCarrito"></span></span>
 	<button id="vaciarCarrito">Vaciar Carrito</button>
 	<div id="carrito"></div>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
 	<script src="js/main.js"></script>
 </body>
 </html>

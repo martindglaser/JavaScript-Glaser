@@ -3,6 +3,20 @@ if(typeof localStorage.getItem('CarritoDeCompras') == 'object'){
 }
 
 
+function mostrarNotificacion(texto){
+  Toastify({
+    text: texto,
+    duration: 3000,
+    newWindow: true,
+    gravity: "top", // `top` or `bottom`
+    position: "right", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+/*    style: {
+      background: "linear-gradient(to right, #00b09b, #96c93d)",
+    }*/
+  }).showToast();
+}
+
 
 class ElementosStorage {
   constructor(idProducto,nombre,precio) {
@@ -42,6 +56,8 @@ let agregarArticulo = function() {
 
     localStorage.setItem('CarritoDeCompras', CarritoNuevoReady);
 
+    mostrarNotificacion(`${nombreAgregar} agregado`)
+
     getArticulosEnCarrito();
 };
 
@@ -80,5 +96,6 @@ getArticulosEnCarrito();
 document.getElementById('vaciarCarrito').addEventListener('click', function(){
 	localStorage.setItem('CarritoDeCompras', JSON.stringify([]));
 	document.getElementById('totalCarrito').innerText = '';
+  mostrarNotificacion('Carrito vaciado');
 	getArticulosEnCarrito();
 });
