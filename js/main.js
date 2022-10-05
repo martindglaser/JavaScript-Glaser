@@ -76,12 +76,16 @@ function getArticulosEnCarrito(){
     carritoDiv.innerHTML = '';
     let totalCarrito = 0;
     for(let i = 0; i < Carrito.length; i++){
-    	carritoDiv.innerHTML += `
-    	<div>
-    		<h3>${Carrito[i]['nombre']}</h3>
-    		<h4>$${Carrito[i]['precio']}</h4>
-    		<hr>
-    	</div>`;
+      let card = document.createElement('div');
+      card.classList.add("card");
+      card.innerHTML = `
+      
+        <div class="card-body">
+          <h5 class="card-title">${Carrito[i]['nombre']}</h5>
+          <p class="card-text">Precio: $${Carrito[i]['precio']}</p>
+        </div>
+      `;
+      carritoDiv.appendChild(card);
     	totalCarrito+=parseFloat(Carrito[i]['precio']);
     }
 
