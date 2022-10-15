@@ -1,0 +1,22 @@
+[
+	{
+		"id":1,
+		"description":"Remera",
+		"price":500
+	},
+	{
+		"id":2,
+		"description":"Pantalon",
+		"price":800
+	},
+	{
+		"id":3,
+		"description":"Zapatillas",
+		"price":1000
+	},
+	{
+		"id":4,
+		"description":"Medias",
+		"price":200
+	}
+]

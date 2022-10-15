@@ -1,3 +1,41 @@
+function getProductos(){
+  let productosDiv = document.getElementById('productosDiv');
+  fetch('js/productos.json')
+  .then((response) => response.json())
+  .then((Data) => {
+    for (let i = 0; i < Data.length; i++) {
+      let card = document.createElement('div');
+      card.classList = 'card';
+      card.innerHTML = `
+        <div class="card">
+          <!-- <img src="..." class="card-img-top" alt="..."> -->
+          <div class="card-body">
+            <h5 class="card-title">${Data[i].description}</h5>
+            <p class="card-text">Precio: $${Data[i].price}</p>
+            <input type="number" value="1" placeholder="Cantidad" class="form-control form-control-sm" id="cantidad-elemento-${Data[i].id}">
+            <button type="button" id="elemento-${Data[i].id}" class="btn btn-primary agregarElemento">Agregar al carrito</button>
+          <input type="hidden" id="precio-elemento-${Data[i].id}" value="${Data[i].price}">
+          <input type="hidden" id="nombre-elemento-${Data[i].id}" value="${Data[i].description}">
+          </div>
+        </div>
+      `;
+      productosDiv.appendChild(card);
+    }
+
+
+    let elementos = document.getElementsByClassName("agregarElemento");
+    for (let j = 0; j < elementos.length; j++) {
+        elementos[j].addEventListener('click', agregarArticulo);
+    }
+  })
+  .catch((error) => {console.error('Error:', error)});
+
+
+}
+getProductos();
+
+
+
 if(typeof localStorage.getItem('CarritoDeCompras') == 'object'){
 	localStorage.setItem('CarritoDeCompras', JSON.stringify([]));
 }
@@ -31,7 +69,7 @@ function getIndexById(array,id){
   return array.findIndex((obj => obj.idProducto == id));
 }
 
-let elementos = document.getElementsByClassName("agregarElemento");
+
 
 
 let agregarArticulo = function() {
@@ -78,23 +116,33 @@ let agregarArticulo = function() {
 
 
 
-for (let i = 0; i < elementos.length; i++) {
-    elementos[i].addEventListener('click', agregarArticulo);
+
+
+function eliminar(){
+  let id = this.parentElement.parentElement.parentElement.id;
+  let Carrito = JSON.parse(localStorage.getItem('CarritoDeCompras'));
+  let index = getIndexById(Carrito,id);
+  Carrito.splice(index, 1);
+  localStorage.setItem('CarritoDeCompras', JSON.stringify(Carrito));
+  getArticulosEnCarrito();
+
 }
-
-
 function sumarUno(){
-  let id = this.parentElement.parentElement.id;
+  let id = this.parentElement.parentElement.parentElement.id;
   modificarCantidad(id, 'sumar');
 }
 function restarUno(){
-  let id = this.parentElement.parentElement.id;
+  let id = this.parentElement.parentElement.parentElement.id;
   modificarCantidad(id, 'restar');
 }
 function modificarCantidad(id,accion){
   let Carrito = JSON.parse(localStorage.getItem('CarritoDeCompras'));
 
   let index = getIndexById(Carrito,id);
+
+  if(Carrito[index]['cantidad'] == 1 && accion=='restar'){
+    return mostrarNotificacion('La cantidad no puede ser menor a 1');
+  } 
 
   accion=='sumar' ? Carrito[index]['cantidad']++ : Carrito[index]['cantidad']--;
   
@@ -119,18 +167,26 @@ function getArticulosEnCarrito(){
         <div class="card-body" id="${Carrito[i]['idProducto']}">
           <h5 class="card-title">${Carrito[i]['nombre']}</h5>
           <p class="card-text">Precio: $${Carrito[i]['precio']}</p>
-          <div>
-            <p class="card-text">Cantidad: ${Carrito[i]['cantidad']}</p>
-            <img id="sumarUno-${Carrito[i]['idProducto']}" class="pointer" src="img/flecha-arriba.svg" style="height: 10px">
-            <img id="restarUno-${Carrito[i]['idProducto']}" class="pointer" src="img/flecha-abajo.svg" style="height: 10px">
+          <div class="elementoCarritoCont">
+            <div>
+              <p class="card-text">Cantidad: ${Carrito[i]['cantidad']}</p>
+              <img id="sumarUno-${Carrito[i]['idProducto']}" class="pointer" src="img/flecha-arriba.svg" style="height: 10px">
+              <img id="restarUno-${Carrito[i]['idProducto']}" class="pointer" src="img/flecha-abajo.svg" style="height: 10px">
+            </div>
+            <div>
+              <button class="btn btn-outline-danger">
+                <img id="eliminar-${Carrito[i]['idProducto']}" src="img/basura.svg" class="borrarImg">
+              </button>
+            </div>
           </div>
         </div>
       `;
       carritoDiv.appendChild(card);
-    	totalCarrito+=parseFloat(Carrito[i]['precio']);
+    	totalCarrito+=parseFloat(Carrito[i]['precio'] * Carrito[i]['cantidad']);
 
       document.getElementById(`sumarUno-${Carrito[i]['idProducto']}`).addEventListener('click', sumarUno);
       document.getElementById(`restarUno-${Carrito[i]['idProducto']}`).addEventListener('click', restarUno);
+      document.getElementById(`eliminar-${Carrito[i]['idProducto']}`).addEventListener('click', eliminar);
     }
 
     if(Carrito.length>0){
@@ -147,3 +203,6 @@ document.getElementById('vaciarCarrito').addEventListener('click', function(){
   mostrarNotificacion('Carrito vaciado');
 	getArticulosEnCarrito();
 });
+
+
+
