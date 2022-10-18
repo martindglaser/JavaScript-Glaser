@@ -119,11 +119,16 @@ let agregarArticulo = function() {
 
 
 function eliminar(){
-  let id = this.parentElement.parentElement.parentElement.id;
+  let id = this.parentElement.parentElement.id;
+
   let Carrito = JSON.parse(localStorage.getItem('CarritoDeCompras'));
   let index = getIndexById(Carrito,id);
+
   Carrito.splice(index, 1);
   localStorage.setItem('CarritoDeCompras', JSON.stringify(Carrito));
+
+  mostrarNotificacion('Elemento Eliminado');
+  
   getArticulosEnCarrito();
 
 }
@@ -165,7 +170,7 @@ function getArticulosEnCarrito(){
       card.classList.add("card");
       card.innerHTML = `
         <div class="card-body" id="${Carrito[i]['idProducto']}">
-          <h5 class="card-title">${Carrito[i]['nombre']}</h5>
+          <h5 id="nombreArticulo-${Carrito[i].idProducto}" class="card-title">${Carrito[i]['nombre']}</h5>
           <p class="card-text">Precio: $${Carrito[i]['precio']}</p>
           <div class="elementoCarritoCont">
             <div>
@@ -174,8 +179,8 @@ function getArticulosEnCarrito(){
               <img id="restarUno-${Carrito[i]['idProducto']}" class="pointer" src="img/flecha-abajo.svg" style="height: 10px">
             </div>
             <div>
-              <button class="btn btn-outline-danger">
-                <img id="eliminar-${Carrito[i]['idProducto']}" src="img/basura.svg" class="borrarImg">
+              <button id="eliminar-${Carrito[i]['idProducto']}" class="btn btn-outline-danger">
+                <img src="img/basura.svg" class="borrarImg">
               </button>
             </div>
           </div>
@@ -190,19 +195,31 @@ function getArticulosEnCarrito(){
     }
 
     if(Carrito.length>0){
+      datos.innerHTML = `
+      <h2>Carrito</h2>
+      <span>Total: 
+        <span id="totalCarrito"></span>
+      </span>
+      <button class="btn btn-danger" id="vaciarCarrito">
+        Vaciar Carrito
+      </button>`;
+
     	document.getElementById('totalCarrito').innerText = '$'+totalCarrito;
+      document.getElementById('vaciarCarrito').addEventListener('click', function(){
+      localStorage.setItem('CarritoDeCompras', JSON.stringify([]));
+      document.getElementById('totalCarrito').innerText = '';
+      mostrarNotificacion('Carrito vaciado');
+      getArticulosEnCarrito();
+    });
+    }else{
+      datos.innerHTML = '';
     }
 
 }
 getArticulosEnCarrito();
 
 
-document.getElementById('vaciarCarrito').addEventListener('click', function(){
-	localStorage.setItem('CarritoDeCompras', JSON.stringify([]));
-	document.getElementById('totalCarrito').innerText = '';
-  mostrarNotificacion('Carrito vaciado');
-	getArticulosEnCarrito();
-});
+
 
 
 
